@@ -27,7 +27,11 @@
 }
 
 .eyebrow {
-  color: var(--flavor-accent);
+  color: color-mix(
+    in srgb,
+    var(--recipe-accent) 45%,
+    var(--recipe-ink)
+  );
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -182,7 +186,11 @@
 }
 
 .prepBeat > p {
-  color: var(--recipe-accent);
+  color: color-mix(
+    in srgb,
+    var(--recipe-accent) 45%,
+    var(--recipe-ink)
+  );
   font-size: 0.69rem;
   font-weight: 800;
   letter-spacing: 0.13em;

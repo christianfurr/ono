@@ -1,34 +1,50 @@
 ---
-verified_at_sha: 615a927
+verified_at_sha: 5c580e8
 verified_at: 2026-09-27
 ---
 
 # What this repo is
-OAT / NIGHT is a Next.js recipe catalog for a cinnamon-free overnight-oats base and four flavor worlds. The app is a static, client-enhanced experience with no backend, account system, or remote data source.
+
+OAT / NIGHT is a static Next.js recipe catalog for a cinnamon-free overnight-oats base and four flavor variations. Editorial food stills and scoped GSAP timelines create the visual experience. All recipe content is server-rendered, and the site has no backend, authentication, database, analytics, or remote content source.
 
 # Entry points
-- `app/layout.tsx` owns global metadata, fonts, and the document shell.
-- `app/page.tsx` renders the landing catalog.
-- `app/globals.css` holds Tailwind 4 design tokens, motion rules, responsive composition, and print rules.
+
+- `app/layout.tsx` defines metadata, the viewport, optimized fonts, and the skip link.
+- `app/page.tsx` renders the landing hero, flavor catalog, and canonical base recipe.
+- `app/recipes/[slug]/page.tsx` statically generates the four recipe routes and rejects unknown slugs.
+- `lib/recipes.ts` is the typed source of truth for recipe content, status, palettes, and local image paths.
+- `lib/quantities.ts` formats exact eighth-based quantities for the 1x, 2x, and 3x controls.
 
 # Where things live
-| Concern | Directory | Copy from |
+
+| Concern | Path | Notes |
 |---|---|---|
-| App Router pages | `app/` | `app/page.tsx` |
-| Static assets | `public/` | Replace the starter SVGs with project-owned assets |
-| Project state | `.cairn/` | `.cairn/MAP.md` |
+| Catalog content and controls | `components/catalog/` | Flavor selector, semantic steps, responsive layouts |
+| Recipe content and controls | `components/recipe/` | Hero, batch scaling, checkoffs, method, print styles |
+| Scroll choreography | `components/motion/` | GSAP and ScrollTrigger, scoped through `useGSAP` and `gsap.matchMedia` |
+| Recipe data | `lib/recipes.ts` | Cinnamon-free base plus four flavor records |
+| Generated food stills | `public/images/` | Four 1122 by 1402 WebP images |
+| Asset provenance | `ASSET_MANIFEST.md` | Generation date, prompt summaries, conversion notes |
+| Project state | `.cairn/` | PRD, decisions, issues, and final review |
 
 # How data moves
-The scaffold has no application data flow yet. Recipe data will remain local and typed; interactive batch and ingredient state will stay in isolated Client Components.
+
+Server Components read the local recipe array and render all links, text, ingredients, and methods into static HTML. `CatalogExperience` owns only the selected flavor state. `RecipePanel` owns only batch and ingredient-check state. The motion wrappers query explicit data attributes, create desktop-only timelines when motion is allowed, and revert their GSAP media contexts on cleanup. A custom event synchronizes the scroll-driven flavor stage with the selector without a global scroll listener.
 
 # Commands
-- `bun run dev` starts the Next.js development server.
-- `bun run build` runs the production build and TypeScript validation.
+
+- `bun run dev` starts the development server.
+- `bun run build` creates the optimized production build.
+- `bun run start` serves that production build locally.
 - `bun run lint` runs ESLint.
 - `bunx tsc --noEmit` runs TypeScript without emitting files.
-- No test command exists in `package.json`.
+- No test command exists in `package.json`; the final browser verification is recorded in `.cairn/features/2026-09-27-oat-night/REVIEW.md`.
 
 # Gotchas
-- `AGENTS.md` requires checking the installed Next.js 16 docs under `node_modules/next/dist/docs/` before using framework APIs.
-- Dynamic route `params` are promises in Next.js 16; await them in `app/recipes/[slug]/page.tsx`.
-- `bun.lock` is the only package lockfile and must stay in sync with `package.json`.
+
+- This repository uses Bun and `bun.lock`; do not add npm, Yarn, or pnpm lockfiles.
+- Next.js 16 route `params` are promises and must be awaited.
+- Three.js, React Three Fiber, canvas scenes, and WebGL are intentionally absent after the owner rejected the 3D direction.
+- Mobile and reduced-motion users receive complete static layouts. Desktop scroll animation never gates text, links, ingredients, or controls.
+- The three non-cinnamon flavors are labeled as draft variations pending kitchen testing.
+- The optional 1 to 2 tablespoons of finishing milk is a texture adjustment and stays unscaled.
