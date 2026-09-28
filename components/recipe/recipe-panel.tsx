@@ -34,7 +34,6 @@ export function RecipePanel({ recipe }: { recipe: Recipe }) {
   return (
     <article id="recipe" className={styles.recipePanel}>
       <aside className={styles.panelRail}>
-        <p className={styles.eyebrow}>Build the jar</p>
         <h2>Recipe</h2>
 
         <fieldset className={styles.batchControl} data-print-hidden>

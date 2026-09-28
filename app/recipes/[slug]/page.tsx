@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { RecipeMotion } from "@/components/motion/recipe-motion";
 import { RecipeHero } from "@/components/recipe/recipe-hero";
 import { RecipePanel } from "@/components/recipe/recipe-panel";
 import styles from "@/components/recipe/recipe.module.css";
@@ -11,6 +12,25 @@ import { getRecipeBySlug, recipes } from "@/lib/recipes";
 type RecipePageProps = {
   params: Promise<{ slug: string }>;
 };
+
+const preparationBeats = [
+  {
+    title: "Measure",
+    copy: "Add the base and your flavor additions to a jar.",
+  },
+  {
+    title: "Mix",
+    copy: "Stir until the chia, oats, and flavor additions are evenly combined.",
+  },
+  {
+    title: "Overnight",
+    copy: "Cover the jar and refrigerate overnight.",
+  },
+  {
+    title: "Morning",
+    copy: "Stir again, then loosen with a little skim milk only if you want to.",
+  },
+] as const;
 
 export const dynamicParams = false;
 
@@ -55,8 +75,64 @@ export default async function RecipePage({ params }: RecipePageProps) {
     <div className={styles.page} data-flavor={recipe.slug}>
       <SiteHeader />
 
-      <main id="main-content">
+      <RecipeMotion recipe={recipe}>
         <RecipeHero recipe={recipe} />
+
+        <section
+          className={styles.prepStory}
+          aria-labelledby="prep-story-title"
+          data-prep-story
+          data-print-hidden
+        >
+          <div className={styles.prepSticky} data-prep-sticky>
+            <div className={styles.prepImageFrame}>
+              <Image
+                alt=""
+                className={styles.prepImage}
+                data-prep-image
+                fill
+                sizes="(max-width: 767px) 100vw, 62vw"
+                src={recipe.image.src}
+              />
+              <div className={styles.prepCurtains} aria-hidden="true">
+                {preparationBeats.slice(1).map((beat) => (
+                  <span key={beat.title} data-prep-curtain />
+                ))}
+              </div>
+            </div>
+
+            <header className={styles.prepHeader}>
+              <h2 id="prep-story-title">Four moves. One good morning.</h2>
+            </header>
+
+            <div className={styles.prepBeatTrack} aria-hidden="true">
+              {preparationBeats.map((beat) => (
+                <article
+                  key={beat.title}
+                  className={styles.prepBeat}
+                  data-prep-beat
+                >
+                  <p>{beat.title}</p>
+                  <h3>{beat.copy}</h3>
+                </article>
+              ))}
+            </div>
+
+            <ol className={styles.prepBeatList}>
+              {preparationBeats.map((beat) => (
+                <li key={beat.title} className={styles.prepBeat}>
+                  <p>{beat.title}</p>
+                  <h3>{beat.copy}</h3>
+                </li>
+              ))}
+            </ol>
+
+            <div className={styles.prepProgress} aria-hidden="true">
+              <span data-prep-progress />
+            </div>
+          </div>
+        </section>
+
         <RecipePanel recipe={recipe} />
 
         <section
@@ -65,7 +141,6 @@ export default async function RecipePage({ params }: RecipePageProps) {
           data-print-hidden
         >
           <div className={styles.relatedHeading}>
-            <p className={styles.eyebrow}>Keep browsing</p>
             <h2 id="related-title">Three more jars.</h2>
             <Link href="/#flavors">See the full flavor index</Link>
           </div>
@@ -94,7 +169,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
             ))}
           </div>
         </section>
-      </main>
+      </RecipeMotion>
 
       <footer className={styles.footer} data-print-hidden>
         <Link href="/">OAT / NIGHT</Link>

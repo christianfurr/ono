@@ -1,4 +1,6 @@
 .page {
+  width: 100%;
+  max-width: 100vw;
   min-height: 100dvh;
   overflow: clip;
   background: var(--paper);
@@ -13,6 +15,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
+  width: 100vw;
   padding: 0.85rem var(--spacing-gutter);
   border-bottom: 1px solid currentcolor;
   background: var(--paper);
@@ -39,6 +42,7 @@
 
 .siteNav {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: clamp(1.1rem, 3vw, 2.75rem);
   white-space: nowrap;
@@ -109,6 +113,7 @@
 }
 
 .heroDescription {
+  width: 100%;
   max-width: 35rem;
   margin-top: clamp(1.2rem, 3vh, 2.1rem);
   color: var(--cocoa-soft);
@@ -138,10 +143,14 @@
     transform 180ms ease;
 }
 
-.primaryLink:hover,
-.recipeLink:hover {
-  background: currentcolor;
+.primaryLink:hover {
+  background: var(--cocoa);
   color: var(--paper-raised);
+}
+
+.recipeLink:hover {
+  background: var(--step-ink);
+  color: var(--step-paper);
 }
 
 .primaryLink:active,
@@ -225,7 +234,7 @@
 
 .catalogHeader h2,
 .baseIntro h2 {
-  margin-top: 0.8rem;
+  margin-top: 0;
   font-family: var(--font-editorial), Georgia, serif;
   font-size: clamp(3.1rem, 7vw, 7.2rem);
   font-weight: 500;
@@ -326,6 +335,12 @@
   pointer-events: none;
 }
 
+[data-catalog-motion-root][data-motion-ready="true"] .flavorImage,
+[data-catalog-motion-root][data-motion-ready="true"] .stageImage,
+[data-catalog-motion-root][data-motion-ready="true"] .stageName {
+  will-change: transform, clip-path, opacity;
+}
+
 .flavorImage[data-active="true"] {
   z-index: 1;
   opacity: 1;
@@ -379,6 +394,7 @@
 }
 
 .mobileFlavorImage {
+  position: relative;
   display: none;
 }
 
@@ -660,6 +676,49 @@
 
   .baseList {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 48rem) and (prefers-reduced-motion: reduce) {
+  .catalogStory {
+    display: block;
+  }
+
+  .imageStage {
+    display: none;
+  }
+
+  .storySteps {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .flavorStep {
+    display: block;
+    min-height: 0;
+    grid-column: span 5;
+    padding: 0 0 4rem;
+  }
+
+  .flavorStep:first-child,
+  .flavorStep:last-child {
+    grid-column: span 7;
+  }
+
+  .mobileFlavorImage {
+    position: relative;
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+
+  .mobileFlavorImage img {
+    object-fit: cover;
+  }
+
+  .stepCopy {
+    padding: 2.5rem var(--spacing-gutter) 0;
   }
 }
 

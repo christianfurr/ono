@@ -12,7 +12,7 @@ export function SiteHeader() {
 
       <nav className={styles.siteNav} aria-label="Primary navigation">
         <Link href="/#flavors">Flavors</Link>
-        <Link href="/#base">The base</Link>
+        <Link href="/#base">Base</Link>
       </nav>
     </header>
   );

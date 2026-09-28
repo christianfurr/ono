@@ -115,6 +115,226 @@
   transform: scale(1.01);
 }
 
+.prepStory {
+  overflow: clip;
+  padding: var(--spacing-section) var(--spacing-gutter);
+  border-bottom: 1px solid var(--recipe-ink);
+  background: var(--recipe-paper);
+  color: var(--recipe-ink);
+}
+
+.prepSticky {
+  position: relative;
+  max-width: 96rem;
+  margin-inline: auto;
+}
+
+.prepImageFrame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: 16 / 8;
+  background: var(--recipe-soft);
+}
+
+.prepImage {
+  object-fit: cover;
+}
+
+.prepCurtains {
+  display: none;
+}
+
+.prepHeader {
+  max-width: 58rem;
+  margin-top: clamp(2.5rem, 6vw, 5rem);
+}
+
+.prepHeader h2 {
+  margin-top: 0;
+  font-family: var(--font-editorial), Georgia, serif;
+  font-size: clamp(3.6rem, 7vw, 7.5rem);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.86;
+}
+
+.prepBeatTrack {
+  display: none;
+}
+
+.prepBeatList {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: clamp(3rem, 7vw, 6rem);
+  border: 1px solid currentcolor;
+  list-style: none;
+}
+
+.prepBeat {
+  min-width: 0;
+  padding: clamp(1.25rem, 2.6vw, 2.5rem);
+  border-right: 1px solid currentcolor;
+}
+
+.prepBeat:last-child {
+  border-right: 0;
+}
+
+.prepBeat > p {
+  color: var(--recipe-accent);
+  font-size: 0.69rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.prepBeat h3 {
+  margin-top: 1.2rem;
+  font-family: var(--font-editorial), Georgia, serif;
+  font-size: clamp(1.55rem, 2.4vw, 2.8rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+
+.prepProgress {
+  display: none;
+}
+
+[data-recipe-motion-root][data-motion-ready="true"] .heroImage,
+[data-recipe-motion-root][data-motion-ready="true"] .heroImageFrame,
+[data-recipe-motion-root][data-motion-ready="true"] .prepImage,
+[data-recipe-motion-root][data-motion-ready="true"] .prepBeat,
+[data-recipe-motion-root][data-motion-ready="true"] .prepCurtains span {
+  will-change: transform, clip-path, opacity;
+}
+
+[data-recipe-motion-root][data-motion-ready="true"] .prepStory {
+  padding: 0;
+}
+
+[data-recipe-motion-root][data-motion-ready="true"] .prepSticky {
+  display: grid;
+  width: 100%;
+  max-width: none;
+  min-height: 100dvh;
+  grid-template-columns: minmax(0, 1.28fr) minmax(22rem, 0.72fr);
+  grid-template-rows: auto 1fr auto;
+  margin: 0;
+  background: var(--recipe-paper);
+}
+
+[data-recipe-motion-root][data-motion-ready="true"] .prepImageFrame {
+  height: 100dvh;
+  min-height: 40rem;
+  grid-column: 1;
+  grid-row: 1 / -1;
+  aspect-ratio: auto;
+  border-right: 1px solid var(--recipe-ink);
+}
+
+[data-recipe-motion-root][data-motion-ready="true"] .prepCurtains {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+[data-recipe-motion-root][data-motion-ready="true"] .prepCurtains span {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: var(--recipe-accent);
+}
+
+[data-recipe-motion-root][data-motion-ready="true"]
+  .prepCurtains
+  span:nth-child(2) {
+  background: var(--recipe-ink);
+}
+
+[data-recipe-motion-root][data-motion-ready="true"]
+  .prepCurtains
+  span:nth-child(3) {
+  background: var(--recipe-soft);
+}
+
+[data-recipe-motion-root][data-motion-ready="true"] .prepHeader {
+  z-index: 3;
+  grid-column: 2;
+  grid-row: 1;
+  max-width: none;
+  margin: 0;
+  padding: clamp(2.25rem, 4vw, 4.25rem);
+  border-bottom: 1px solid var(--recipe-ink);
+}
+
+[data-recipe-motion-root][data-motion-ready="true"] .prepHeader h2 {
+  max-width: 8ch;
+  font-size: clamp(3.4rem, 5.8vw, 6.5rem);
+}
+
+[data-recipe-motion-root][data-motion-ready="true"] .prepBeatTrack {
+  position: relative;
+  z-index: 3;
+  display: block;
+  min-height: 18rem;
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;
+  border: 0;
+}
+
+[data-recipe-motion-root][data-motion-ready="true"] .prepBeatList {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+[data-recipe-motion-root][data-motion-ready="true"] .prepBeat {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2.25rem, 4vw, 4.25rem);
+  border: 0;
+}
+
+[data-recipe-motion-root][data-motion-ready="true"] .prepBeat h3 {
+  max-width: 14ch;
+  font-size: clamp(2.1rem, 3.8vw, 4.25rem);
+}
+
+[data-recipe-motion-root][data-motion-ready="true"] .prepProgress {
+  z-index: 3;
+  display: block;
+  height: 0.2rem;
+  grid-column: 2;
+  grid-row: 3;
+  margin: 0 clamp(2.25rem, 4vw, 4.25rem) clamp(2.25rem, 4vw, 4.25rem);
+  overflow: hidden;
+  background: transparent;
+}
+
+.prepProgress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--recipe-accent);
+  transform: scaleX(0.25);
+  transform-origin: left center;
+}
+
 .recipePanel {
   display: grid;
   grid-template-columns: minmax(17rem, 0.54fr) minmax(0, 1.46fr);
@@ -137,7 +357,7 @@
 }
 
 .panelRail h2 {
-  margin-top: 0.75rem;
+  margin-top: 0;
   font-family: var(--font-editorial), Georgia, serif;
   font-size: clamp(4.2rem, 8vw, 8rem);
   font-weight: 500;
@@ -380,7 +600,7 @@
 }
 
 .relatedHeading h2 {
-  margin-top: 0.75rem;
+  margin-top: 0;
   font-family: var(--font-editorial), Georgia, serif;
   font-size: clamp(3.5rem, 7vw, 7rem);
   font-weight: 500;
@@ -492,6 +712,20 @@
   .methodList {
     grid-template-columns: 1fr;
   }
+
+  [data-recipe-motion-root]:not([data-motion-ready="true"]) .prepBeatList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  [data-recipe-motion-root]:not([data-motion-ready="true"])
+    .prepBeat:nth-child(2) {
+    border-right: 0;
+  }
+
+  [data-recipe-motion-root]:not([data-motion-ready="true"])
+    .prepBeat:nth-child(-n + 2) {
+    border-bottom: 1px solid currentcolor;
+  }
 }
 
 @media (max-width: 47.99rem) {
@@ -514,6 +748,38 @@
     min-height: 29rem;
     border-top: 1px solid var(--recipe-ink);
     border-left: 0;
+  }
+
+  .prepStory {
+    padding: 5.5rem 1rem;
+  }
+
+  .prepImageFrame {
+    aspect-ratio: 4 / 5;
+  }
+
+  .prepHeader {
+    margin-top: 2.5rem;
+  }
+
+  .prepHeader h2 {
+    font-size: clamp(3.5rem, 15vw, 5.25rem);
+  }
+
+  .prepBeatList {
+    grid-template-columns: 1fr;
+    margin-top: 3.5rem;
+  }
+
+  .prepBeat,
+  [data-recipe-motion-root]:not([data-motion-ready="true"]) .prepBeat:nth-child(2) {
+    padding: 1.5rem;
+    border-right: 0;
+    border-bottom: 1px solid currentcolor;
+  }
+
+  .prepBeat:last-child {
+    border-bottom: 0;
   }
 
   .recipePanel {
@@ -631,10 +897,6 @@
   .panelRail {
     position: static;
     margin-bottom: 0.2in;
-  }
-
-  .panelRail .eyebrow {
-    display: none;
   }
 
   .panelRail h2 {

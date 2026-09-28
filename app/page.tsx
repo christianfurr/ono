@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CatalogExperience } from "@/components/catalog/catalog-experience";
 import styles from "@/components/catalog/catalog.module.css";
+import { CatalogMotion } from "@/components/motion/catalog-motion";
 import { SiteHeader } from "@/components/site-header";
 import {
   baseIngredients,
@@ -22,14 +23,16 @@ export default function Home() {
     <div className={styles.page}>
       <SiteHeader />
 
-      <main id="main-content">
+      <CatalogMotion>
         <section
           className={styles.hero}
           aria-labelledby="home-title"
           data-home-hero
         >
           <div className={styles.heroCopy}>
-            <p className={styles.eyebrow}>Overnight, reconsidered</p>
+            <p className={styles.eyebrow} data-hero-support>
+              Overnight, reconsidered
+            </p>
             <h1 id="home-title" className={styles.displayTitle}>
               <span className={styles.titleMask}>
                 <span data-hero-title-line>A little tonight.</span>
@@ -40,11 +43,15 @@ export default function Home() {
                 </span>
               </span>
             </h1>
-            <p className={styles.heroDescription}>
+            <p className={styles.heroDescription} data-hero-support>
               Four overnight oats, one cinnamon-free base, and a better morning
               waiting in the fridge.
             </p>
-            <Link className={styles.primaryLink} href="#flavors">
+            <Link
+              className={styles.primaryLink}
+              href="#flavors"
+              data-hero-support
+            >
               Browse flavors
             </Link>
           </div>
@@ -53,8 +60,10 @@ export default function Home() {
             <Image
               alt={cinnamon.image.alt}
               className={styles.heroImage}
+              data-hero-image
+              fetchPriority="high"
               fill
-              priority
+              loading="eager"
               sizes="(max-width: 767px) 100vw, 44vw"
               src={cinnamon.image.src}
             />
@@ -71,7 +80,6 @@ export default function Home() {
           aria-labelledby="base-title"
         >
           <div className={styles.baseIntro}>
-            <p className={styles.eyebrow}>The foundation</p>
             <h2 id="base-title">One base. No cinnamon.</h2>
             <p>
               Every flavor begins here. Cinnamon only enters the Cinnamon Honey
@@ -100,7 +108,7 @@ export default function Home() {
             </p>
           </aside>
         </section>
-      </main>
+      </CatalogMotion>
 
       <footer className={styles.footer}>
         <Link href="/">OAT / NIGHT</Link>

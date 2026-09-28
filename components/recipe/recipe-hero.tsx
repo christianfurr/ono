@@ -49,8 +49,9 @@ export function RecipeHero({ recipe }: { recipe: Recipe }) {
         <Image
           alt={recipe.image.alt}
           className={styles.heroImage}
+          fetchPriority="high"
           fill
-          priority
+          loading="eager"
           sizes="(max-width: 767px) 100vw, 56vw"
           src={recipe.image.src}
         />

@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { Recipe } from "@/lib/recipes";
+import { FLAVOR_CHANGE_EVENT } from "@/components/motion/catalog-motion";
 import styles from "./catalog.module.css";
 
 type FlavorStyle = CSSProperties & {
@@ -24,6 +25,20 @@ export function CatalogExperience({ items }: { items: readonly Recipe[] }) {
   const [activeSlug, setActiveSlug] = useState(items[0]?.slug ?? "");
   const activeRecipe =
     items.find((recipe) => recipe.slug === activeSlug) ?? items[0];
+
+  useEffect(() => {
+    function handleFlavorChange(event: Event) {
+      const slug = (event as CustomEvent<string>).detail;
+
+      if (items.some((recipe) => recipe.slug === slug)) {
+        setActiveSlug(slug);
+      }
+    }
+
+    window.addEventListener(FLAVOR_CHANGE_EVENT, handleFlavorChange);
+    return () =>
+      window.removeEventListener(FLAVOR_CHANGE_EVENT, handleFlavorChange);
+  }, [items]);
 
   if (!activeRecipe) {
     return null;
@@ -60,7 +75,6 @@ export function CatalogExperience({ items }: { items: readonly Recipe[] }) {
     >
       <header className={styles.catalogHeader}>
         <div>
-          <p className={styles.eyebrow}>The flavor collection</p>
           <h2 id="catalog-title">Four mornings. Pick yours.</h2>
           <p>
             The same cinnamon-free base, pushed toward four very different
@@ -110,7 +124,11 @@ export function CatalogExperience({ items }: { items: readonly Recipe[] }) {
               </div>
             ))}
             <div className={styles.stageShade} aria-hidden="true" />
-            <p className={styles.stageName} aria-live="polite">
+            <p
+              className={styles.stageName}
+              data-stage-name
+              aria-live="polite"
+            >
               {activeRecipe.name}
             </p>
           </div>
@@ -136,12 +154,12 @@ export function CatalogExperience({ items }: { items: readonly Recipe[] }) {
                   <Image
                     alt={recipe.image.alt}
                     fill
-                    sizes="100vw"
+                    sizes="(max-width: 767px) 100vw, 1px"
                     src={recipe.image.src}
                   />
                 </div>
 
-                <div className={styles.stepCopy}>
+                <div className={styles.stepCopy} data-step-copy>
                   <p className={styles.flavorNote}>{recipe.copy.eyebrow}</p>
                   <h3>{recipe.name}</h3>
                   <p>{recipe.copy.description}</p>
