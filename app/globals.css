@@ -47,7 +47,7 @@
   --color-flavor-ink: var(--flavor-ink);
 
   --font-sans: var(--font-manrope), "Helvetica Neue", sans-serif;
-  --font-display: var(--font-instrument-serif), Georgia, serif;
+  --font-display: var(--font-editorial), Georgia, serif;
 
   --text-display: clamp(4.75rem, 15vw, 14rem);
   --text-display--line-height: 0.78;

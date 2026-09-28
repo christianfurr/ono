@@ -1,12 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, Manrope } from "next/font/google";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
 
-const displayFont = Instrument_Serif({
-  variable: "--font-instrument-serif",
+const displayFont = Cormorant_Garamond({
+  variable: "--font-editorial",
   subsets: ["latin"],
-  weight: "400",
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
