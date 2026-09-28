@@ -1,6 +1,6 @@
 # OAT / NIGHT final review
 
-Date: 2026-09-27
+Date: 2026-09-28
 
 ## Baseline outcome
 
@@ -40,7 +40,7 @@ CN-008 extends that released baseline with an eight-frame landing-page film from
 | Reduced motion | The timeline did not initialize; one finished still and all three beats remained in the static layout |
 | Loading and runtime | The eight files total 763,598 bytes; frames stayed `loading=lazy` at the initial viewport and switched to eager decoding near the film; no page exception or raw scroll listener was present |
 | Regression | All public routes, flavor selection, 3x batch fractions, ingredient checkoff, skip-link target, existing print output, and unknown-route 404 passed |
-| Production | Pending the CN-008 deployment from `master` |
+| Production | Git-triggered deployment `dpl_8ewajrNDLn2stWeQCw4scRq2YXPA` reached `READY`; the public alias passed route, asset, film progression, and sticky-release checks |
 
 ## Verification evidence
 
@@ -96,6 +96,6 @@ The final visual pass inspected the film at 390, 768, and 1440 pixels, a short 8
 - Default branch: `master`
 - Vercel project: `makashi2021s-projects/ono`
 - Verified production alias: `https://ono-roan.vercel.app`
-- Deployment: `dpl_CqJ5jootTFQRgFxsCW7EB6jWLjie`, target `production`, state `READY`
+- Deployment: `dpl_8ewajrNDLn2stWeQCw4scRq2YXPA`, target `production`, state `READY`
 
-The public alias returned 200 for the landing page and all four recipe routes, and 404 for an unknown recipe. A second browser pass against the alias repeated the responsive, interaction, print, reduced-motion, and runtime-exception checks with the same results as local production.
+The public alias returned 200 for the landing page, all four recipe routes, and a sequence asset, and 404 for an unknown recipe. A live browser pass showed the pinned film start, cool night transition, final morning state, and clean release into the flavor catalog. The earlier production pass already covered responsive interaction, print, reduced motion, and runtime exceptions; the CN-008 local pass repeated all affected film and recipe-control paths.

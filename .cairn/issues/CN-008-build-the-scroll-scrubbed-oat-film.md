@@ -1,7 +1,7 @@
 ---
 id: CN-008
 title: Build the scroll-scrubbed oat film
-status: in_progress
+status: closed
 priority: 0
 type: feature
 feature: 2026-09-27-oat-night
@@ -10,7 +10,7 @@ files: [app/page.tsx, components/catalog/scroll-film.tsx, components/catalog/scr
 acceptance: A pinned image sequence scrubs smoothly from night preparation to finished morning oats on desktop and phone, adds at least six new coherent frames, preserves semantic content and reduced motion, passes Bun build and lint, and is verified on the production alias.
 assignee: Christian Furr
 created: 2026-09-27
-closed:
+closed: 2026-09-28
 ---
 
 Replace the current slideshow-like impression with one signature scroll-controlled photographic film. Keep the camera and jar composition coherent, cross-blend adjacent frames, preload responsibly, and do not reintroduce 3D or WebGL.
@@ -21,3 +21,4 @@ The film uses eight locally hosted landscape frames rendered as ordinary images.
 
 - 2026-09-27: Cairn architecture, product scope, and review placeholders were updated for the eight-frame film. Build, browser, asset, and production verification remain pending.
 - 2026-09-27: Local verification passed at 390, 768, and 1440 pixels plus 844 by 390 landscape. Forward and reverse scrub, reduced motion, route and control regressions, TypeScript, lint, and the production build all passed. The eight frames total 763,598 bytes; production deployment remains.
+- 2026-09-28 Production deployment dpl_8ewajrNDLn2stWeQCw4scRq2YXPA reached READY for master commit 59aec97. The public alias returned 200 for the landing page, all four recipe routes, and a sequence asset; the unknown route returned 404. A live browser pass showed the pinned film start, night transition, final morning state, and clean release into the flavor catalog.
