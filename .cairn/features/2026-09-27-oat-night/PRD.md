@@ -4,7 +4,7 @@
 
 **Goal:** Build and publish an art-directed overnight-oats catalog with four distinct flavor worlds around the owner's cinnamon-free base recipe.
 
-**Acceptance:** A visitor can browse all four flavors, open each direct recipe URL, scale the batch to 1x, 2x, or 3x, check ingredients, print the recipe, and experience an image-led, flavor-specific scroll story with a complete reduced-motion fallback on the live Vercel site.
+**Acceptance:** A visitor can scrub one coherent eight-frame oat-preparation film from an empty evening jar to finished morning oats on desktop or phone, browse all four flavors, open each direct recipe URL, scale the batch to 1x, 2x, or 3x, check ingredients, print the recipe, and receive a complete reduced-motion fallback on the live Vercel site.
 
 **Fleet size:** Project. Use parallel agents for bounded planning, asset, implementation, and review work while the director owns architecture and release decisions.
 
@@ -18,15 +18,16 @@
 
 ## Art direction
 
-OAT / NIGHT uses an edible editorial system: oat-paper backgrounds, cocoa type, ingredient-specific accent colors, oversized display typography, and close food imagery. The landing page acts as a flavor index; each recipe opens into a separate art-directed commercial with its own cropping, motion, light, and pacing. Generated food photography anchors sticky scroll scenes while ingredient words, masks, and palette fields move around it. The signature interaction is a flavor selector that synchronizes copy, palette, recipe action, and imagery without trapping navigation or hiding semantic content.
+OAT / NIGHT uses an edible editorial system: oat-paper backgrounds, cocoa type, ingredient-specific accent colors, oversized display typography, and close food imagery. The landing page opens with an eight-frame preparation film whose locked camera moves from an empty evening jar through mixing and chilling to finished morning oats. It then acts as a flavor index; each recipe opens into a separate art-directed commercial with its own cropping, motion, light, and pacing. Generated food photography anchors the sticky scroll scenes while ingredient words, masks, and palette fields move around it. Semantic copy, links, and controls remain present without animation.
 
 ## Storyboard
 
 1. The landing hero introduces OAT / NIGHT through a fast typographic curtain and a full-bleed food image.
-2. A sticky flavor index shifts palette, image crop, and ingredient typography while preserving real links and keyboard navigation.
-3. Each recipe opens at its own URL with a direct jump to semantic recipe content.
-4. One bounded image-led assembly sequence leads into a calm recipe panel with scaling, checkoffs, and print support.
-5. Related flavors close the page and return the visitor to the catalog.
+2. A bounded, sticky oat film crossfades eight coherent frames as the visitor scrolls from the empty jar to morning, with shorter pacing on phones.
+3. A sticky flavor index shifts palette, image crop, and ingredient typography while preserving real links and keyboard navigation.
+4. Each recipe opens at its own URL with a direct jump to semantic recipe content.
+5. One bounded image-led assembly sequence leads into a calm recipe panel with scaling, checkoffs, and print support.
+6. Related flavors close the page and return the visitor to the catalog.
 
 ## Repo map
 
@@ -34,20 +35,20 @@ OAT / NIGHT uses an edible editorial system: oat-paper backgrounds, cocoa type, 
 - `app/page.tsx` owns the server-rendered landing route.
 - `app/recipes/[slug]/page.tsx` statically renders the four direct recipe routes.
 - `lib/recipes.ts` is the only recipe and flavor-content source.
-- `components/catalog/` owns landing selection and copy.
+- `components/catalog/` owns landing selection, copy, and the semantic oat-film frame stack.
 - `components/recipe/` owns semantic recipe controls and assembly layout.
 - `components/motion/` owns scoped GSAP entrances, sticky scroll sequences, and reduced-motion cleanup.
 - `app/globals.css` holds tokens, reset, global focus, reduced-motion, and print rules. CSS Modules hold surface composition.
 
 ## Approach
 
-Use one typed recipe system and four generated editorial stills. Server Components render the catalog and recipe content; narrow Client Components own selection, ingredient state, scaling, and animation. GSAP owns DOM and story progress. CSS masks, transforms, and palette variables create depth without WebGL.
+Use one typed recipe system, four generated flavor stills, and eight coherent landscape frames for the oat film. Server Components render the catalog, film frames and beats, and recipe content; narrow Client Components own selection, ingredient state, scaling, and animation. The film is a normal image-and-copy grid before enhancement. When motion is allowed, CSS stacks its images inside a sticky viewport and one GSAP ScrollTrigger timeline crossfades adjacent frames, changes the three text beats, and advances the progress rule. Phone pacing is shorter, and reduced motion stays on the static layout. No React state, raw scroll listener, canvas, video, 3D, or WebGL drives the sequence.
 
 The first implementation used procedural 3D, but the owner rejected that visual direction after seeing it. The replacement keeps CSS Modules, generated imagery, semantic routes, and the Bun-only workflow while moving all spectacle into restrained, reversible scroll choreography.
 
 ## Scope boundary
 
-In scope: four recipes, a cinnamon-free base, direct routes, generated editorial imagery, sticky and bounded GSAP stories, batch scaling, ingredient checkboxes, print output, metadata, responsive design, keyboard support, reduced motion, GitHub, and a verified Vercel production deployment.
+In scope: four recipes, a cinnamon-free base, direct routes, four flavor stills, an eight-frame oat film, sticky and bounded GSAP stories, batch scaling, ingredient checkboxes, print output, metadata, responsive design, keyboard support, reduced motion, GitHub, and a verified Vercel production deployment.
 
 Out of scope: authentication, database storage, shopping, favorites, analytics, nutrition panels, invented serving yields, ratings, reviews, dietary guarantees, and storage-duration claims. These require product decisions or evidence that the owner did not provide.
 
@@ -57,6 +58,8 @@ Out of scope: authentication, database storage, shopping, favorites, analytics, 
 - Cinnamon belongs only to the Cinnamon Honey recipe.
 - Mark Strawberry Vanilla, Chocolate Peanut Butter, and Blueberry Lemon as draft variations pending kitchen testing.
 - Keep every recipe and action usable before motion initializes and when reduced motion is requested.
+- Keep the oat film's text in semantic HTML and its default layout readable; only enhance it into a sticky sequence when motion is allowed.
+- Use stacked local images and one GSAP timeline for the film. Do not reintroduce canvas, video, 3D, or WebGL.
 - Use Bun for dependency changes, scripts, and one-off CLIs.
 - Use `bunx vercel@latest` instead of changing the installed global Vercel CLI.
 
@@ -68,6 +71,7 @@ Out of scope: authentication, database storage, shopping, favorites, analytics, 
 - CN-003: Add scoped motion and editorial fallback assets.
 - CN-004: Audit, refine, and verify the complete experience.
 - CN-005: Publish GitHub master and Vercel production.
+- CN-008: Build and verify the eight-frame scroll-scrubbed oat film.
 
 ## Verification
 
@@ -75,13 +79,17 @@ Out of scope: authentication, database storage, shopping, favorites, analytics, 
 - `bunx tsc --noEmit`
 - `bun run lint`
 - Render and inspect `/` plus all four recipe URLs at 390, 768, and 1440 pixels.
+- At 390, 768, and 1440 pixels, inspect the oat film near its start, midpoint, and end; verify adjacent-frame blending, legible beat changes, bounded sticky release, and no blank state.
+- Confirm all eight local frames load before they are needed without blocking the initial page, and record their total payload.
 - Verify keyboard operation, focus visibility, 1x/2x/3x fractions, ingredient checkoffs, jump navigation, print output, reduced motion, sticky-scene release, direct refresh, and browser history.
+- Under reduced motion, verify the film keeps its finished still and complete semantic copy in a static layout and creates no ScrollTrigger.
 - Verify Vercel reports `READY`, request every public route, and inspect the rendered production page rather than trusting the deployment record.
 
 ## Risks
 
 - Image crops can become repetitive. Each flavor gets a distinct mask, scale, and type composition instead of a recolored template.
-- Scroll stories can trap the page or feel slow. Each sequence is bounded, unpins cleanly, collapses on mobile, and becomes static under reduced motion.
+- Scroll stories can trap the page or feel slow. Each sequence is bounded and must release cleanly; the oat film uses shorter phone pacing, while reduced motion stays static.
+- Eight full-width frames can delay the first scrub. Keep them compressed, locally hosted, and decode them as the visitor approaches rather than making every frame part of the initial critical request.
 - Route changes can leak animation state. `useGSAP` scopes timelines and every ScrollTrigger is reverted on cleanup.
 - Recipe variations have not been kitchen-tested. The UI labels their status and avoids unsupported claims.
 

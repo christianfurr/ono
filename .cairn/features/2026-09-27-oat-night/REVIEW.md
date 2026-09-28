@@ -2,9 +2,11 @@
 
 Date: 2026-09-27
 
-## Outcome
+## Baseline outcome
 
 The rejected 3D direction is fully removed. The finished site uses four generated editorial food stills, a typographic hero entrance, a reversible sticky flavor runway, image masks, palette changes, and a bounded pinned preparation story. Recipe content remains available in static HTML when JavaScript, desktop animation, or motion preferences change.
+
+CN-008 extends that released baseline with an eight-frame landing-page film from evening preparation to finished morning oats. The implementation and local verification are complete; production evidence is recorded after the release below.
 
 ## Design read
 
@@ -12,7 +14,33 @@ The rejected 3D direction is fully removed. The finished site uses four generate
 - Visual language: edible editorial photography, oversized Cormorant Garamond display type, restrained Manrope utility copy, thin rules, and flavor-specific paper colors.
 - Composition: split hero, asymmetric flavor stage, full-height preparation sequence, and editorial ingredient layouts.
 - Motion: GSAP owns transforms, clipping, opacity, pinning, and scroll progress. CSS owns layout and static fallbacks.
-- Restraint: no 3D, WebGL, gradients, glow, glass effects, floating cards, decorative counters, or autonomous looping motion.
+- Restraint: no 3D, WebGL, decorative gradient fields, glow, glass effects, floating cards, decorative counters, or autonomous looping motion.
+
+## CN-008 scroll-film addendum
+
+### Architecture
+
+- `components/catalog/scroll-film.tsx` server-renders eight local image frames and three ordered, semantic preparation beats between the hero and flavor catalog.
+- `components/catalog/scroll-film.module.css` presents the frames and beats as a readable grid by default, then stacks them inside a bounded sticky viewport only after motion initialization marks the sequence ready.
+- `components/motion/catalog-motion.tsx` uses the existing GSAP/ScrollTrigger owner to crossfade and gently scale adjacent frames, change beats, advance the progress rule, and request image decoding as the sequence approaches.
+- The same film runs on desktop and phone, with shorter phone pacing. Reduced motion keeps the finished still and all three semantic beats in an unpinned layout.
+- The renderer is ordinary DOM imagery. It does not add canvas, video, Three.js, React Three Fiber, or WebGL.
+
+### CN-008 verification
+
+| Check | Result |
+|---|---|
+| Asset set | Eight coherent, cinnamon-free 1440 by 810 WebP frames exist under `public/images/sequence/` and match `ASSET_MANIFEST.md` |
+| TypeScript | `bunx tsc --noEmit` passed |
+| Lint | `bun run lint` passed with no warnings |
+| Production build | `bun run build` passed; the landing page and four recipe routes were statically generated |
+| Film progression | Start, two midpoints, final state, and reverse scrub were inspected; only the active adjacent frame pair stayed visible and all three beats resolved without overlap |
+| Phone behavior | 390 by 844 portrait and 844 by 390 landscape passed; the sticky sequence progressed, released, fit the viewport, and had no horizontal overflow |
+| Tablet and desktop | 768 by 1000 and 1440 by 1000 passed with populated start, midpoint, and final states and no blank frame |
+| Reduced motion | The timeline did not initialize; one finished still and all three beats remained in the static layout |
+| Loading and runtime | The eight files total 763,598 bytes; frames stayed `loading=lazy` at the initial viewport and switched to eager decoding near the film; no page exception or raw scroll listener was present |
+| Regression | All public routes, flavor selection, 3x batch fractions, ingredient checkoff, skip-link target, existing print output, and unknown-route 404 passed |
+| Production | Pending the CN-008 deployment from `master` |
 
 ## Verification evidence
 
@@ -24,7 +52,7 @@ The rejected 3D direction is fully removed. The finished site uses four generate
 | Direct routes | `/` and all four recipe URLs returned 200; an unknown recipe returned 404 |
 | Responsive width | 360, 375, 390, 768, and 1440 CSS pixel captures had matching viewport and document widths with no horizontal overflow |
 | Desktop motion | `data-motion-ready` activated at 768 and 1440 when motion was allowed |
-| Reduced motion | Motion did not initialize; all four catalog images and full recipe steps remained visible |
+| Reduced motion | Motion did not initialize; all four catalog images, full recipe steps, the film's finished still, and all three film beats remained visible |
 | Flavor selector | Selecting Blueberry Lemon scrolled to its section and synchronized `aria-pressed` plus the active palette state |
 | Batch scaling | The 3x base rendered 1 1/2 cups, 2 1/4 cups, 1 1/2 cups, 3 tablespoons, 6 tablespoons, 1 1/2 teaspoons, and 3/8 teaspoon |
 | Ingredient checkoff | Native checkbox state changed and the matching label treatment updated |
@@ -32,10 +60,10 @@ The rejected 3D direction is fully removed. The finished site uses four generate
 | Label contrast | Small accent labels were darkened to at least 6.58:1 against every flavor paper color |
 | Print | Chromium produced one tagged US Letter page with the recipe, scaled amounts, and method; navigation, motion story, images, and controls were hidden |
 | Runtime errors | No page exceptions were observed during the browser interaction pass |
-| Asset payload | Four 1122 by 1402 WebP stills total about 812 KB on disk |
+| Asset payload | Four 1122 by 1402 WebP flavor stills total about 812 KB; eight 1440 by 810 WebP film frames add 763,598 bytes |
 | Runtime dependency search | No Three.js, React Three Fiber, canvas, WebGL, or scroll event listener remains in application source |
 
-The final visual pass inspected the 390 mobile hero, 768 split hero, 1440 hero, Strawberry Vanilla catalog state, pinned recipe story, and reduced-motion catalog. All were populated, readable, and free of clipping or blank states.
+The final visual pass inspected the film at 390, 768, and 1440 pixels, a short 844 by 390 landscape viewport, forward and reverse scrubbing, the 390 mobile hero, 768 split hero, 1440 hero, Strawberry Vanilla catalog state, pinned recipe story, and reduced-motion layouts. All were populated, readable, and free of clipping or blank states.
 
 ## Adversarial review
 
@@ -44,7 +72,7 @@ The final visual pass inspected the 390 mobile hero, 768 split hero, 1440 hero, 
 - The four recipes are not presented as equally proven. Cinnamon Honey is marked as the original flavor; the other three are clearly marked as draft variations pending kitchen testing.
 - The cinnamon-free base is repeated on the landing page and cinnamon appears only in the Cinnamon Honey flavor.
 - The warm light palette and single light color scheme are intentional because the art direction, generated stills, food context, and print layout were designed as one editorial system.
-- Mobile keeps the same typography, imagery, hierarchy, and complete catalog without desktop pinning.
+- Mobile keeps the same typography, imagery, and hierarchy. The flavor runway and recipe story remain static there, while the new film intentionally uses its own bounded phone scrub.
 - The Base navigation link remains present at 360, 375, and 390 CSS pixels.
 - The repeated flavor name and heightened ingredient gestures are intentional editorial devices within the owner-requested maximal scroll composition.
 
@@ -59,7 +87,7 @@ The final visual pass inspected the 390 mobile hero, 768 split hero, 1440 hero, 
 ## Accepted waivers
 
 - No dark mode: the brief is a deliberately light, food-editorial composition, and a dark transformation would work against the generated photography and print behavior.
-- Mobile uses the complete static composition instead of pinning full-height sections. This preserves reading order, touch behavior, and reduced layout cost on smaller screens.
+- The flavor runway and recipe stories may still use static mobile composition, but the new oat film intentionally uses one bounded sticky scrub on phones. Its default DOM order remains the fallback for reduced motion and failed enhancement.
 - The optional finishing milk does not scale because it is an after-chilling texture adjustment, not part of the mixed base.
 
 ## Production publication

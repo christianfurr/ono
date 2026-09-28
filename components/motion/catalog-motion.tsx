@@ -255,6 +255,181 @@ export function CatalogMotion({ children }: CatalogMotionProps) {
         },
       );
 
+      media.add(
+        {
+          compact: "(max-width: 767px)",
+          motion: "(prefers-reduced-motion: no-preference)",
+        },
+        (context) => {
+          const conditions = context.conditions as
+            | { compact?: boolean; motion?: boolean }
+            | undefined;
+          const film = root.querySelector<HTMLElement>("[data-scroll-film]");
+
+          if (!conditions?.motion || !film) {
+            return;
+          }
+
+          const frames = Array.from(
+            film.querySelectorAll<HTMLElement>("[data-film-frame]"),
+          );
+          const beats = Array.from(
+            film.querySelectorAll<HTMLElement>("[data-film-beat]"),
+          );
+          const progress = film.querySelector<HTMLElement>(
+            "[data-film-progress]",
+          );
+
+          if (frames.length < 2) {
+            return;
+          }
+
+          film.dataset.filmMotionReady = "true";
+
+          frames.forEach((frame, index) => {
+            gsap.set(frame, {
+              autoAlpha: index === 0 ? 1 : 0,
+              scale: index === 0 ? 1.055 : 1.04,
+              willChange: "auto",
+              zIndex: index + 1,
+            });
+          });
+
+          gsap.set(beats, { opacity: 0, y: 32 });
+
+          if (beats[0]) {
+            gsap.set(beats[0], { opacity: 1, y: 0 });
+          }
+
+          const transitionDuration = 0.9;
+          const filmDuration = frames.length - 1 + transitionDuration;
+          const timeline = gsap.timeline({
+            scrollTrigger: {
+              trigger: film,
+              start: "top top",
+              end: "bottom bottom",
+              scrub: conditions.compact ? 0.28 : 0.52,
+              invalidateOnRefresh: true,
+            },
+          });
+
+          timeline.to(
+            frames[0],
+            { duration: 1.15, ease: "none", scale: 1 },
+            0,
+          );
+
+          frames.slice(1).forEach((frame, offset) => {
+            const index = offset + 1;
+            const position = index - 1;
+            const previous = frames[index - 1];
+
+            timeline.set(
+              [previous, frame],
+              { willChange: "opacity, transform" },
+              position,
+            );
+
+            timeline.to(
+              frame,
+              {
+                autoAlpha: 1,
+                duration: transitionDuration,
+                ease: "none",
+                scale: 1,
+              },
+              position,
+            );
+
+            if (previous) {
+              timeline.to(
+                previous,
+                {
+                  duration: transitionDuration,
+                  ease: "none",
+                  scale: 0.988,
+                },
+                position,
+              );
+
+              timeline.set(
+                previous,
+                { autoAlpha: 0, willChange: "auto" },
+                position + transitionDuration,
+              );
+            }
+
+            timeline.set(
+              frame,
+              { willChange: "auto" },
+              position + transitionDuration,
+            );
+          });
+
+          if (progress) {
+            timeline.to(
+              progress,
+              { duration: filmDuration, ease: "none", scaleX: 1 },
+              0,
+            );
+          }
+
+          const beatChanges = [2.05, 4.55];
+
+          beatChanges.forEach((position, index) => {
+            const outgoing = beats[index];
+            const incoming = beats[index + 1];
+
+            if (!outgoing || !incoming) {
+              return;
+            }
+
+            timeline
+              .to(
+                outgoing,
+                {
+                  duration: 0.18,
+                  ease: "power2.in",
+                  opacity: 0,
+                  y: -18,
+                },
+                position,
+              )
+              .fromTo(
+                incoming,
+                { opacity: 0, y: 32 },
+                {
+                  duration: 0.36,
+                  ease: "power3.out",
+                  opacity: 1,
+                  y: 0,
+                },
+                position + 0.22,
+              );
+          });
+
+          const images = frames
+            .map((frame) => frame.querySelector<HTMLImageElement>("img"))
+            .filter((image): image is HTMLImageElement => image !== null);
+
+          ScrollTrigger.create({
+            trigger: film,
+            start: "top 125%",
+            once: true,
+            onEnter: () => {
+              images.forEach((image) => {
+                image.loading = "eager";
+                void image.decode().catch(() => undefined);
+              });
+            },
+          });
+
+          return () => {
+            delete film.dataset.filmMotionReady;
+          };
+        },
+      );
+
       return () => media.revert();
     },
     { scope: rootRef },

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CatalogExperience } from "@/components/catalog/catalog-experience";
 import styles from "@/components/catalog/catalog.module.css";
+import { ScrollFilm } from "@/components/catalog/scroll-film";
 import { CatalogMotion } from "@/components/motion/catalog-motion";
 import { SiteHeader } from "@/components/site-header";
 import {
@@ -71,6 +72,8 @@ export default function Home() {
             <span aria-hidden="true" data-hero-rule />
           </figure>
         </section>
+
+        <ScrollFilm />
 
         <CatalogExperience items={recipes} />
 
