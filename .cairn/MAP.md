@@ -1,5 +1,5 @@
 ---
-verified_at_sha: 5c580e8
+verified_at_sha: e1ecdc1
 verified_at: 2026-09-27
 ---
 
@@ -39,6 +39,13 @@ Server Components read the local recipe array and render all links, text, ingred
 - `bun run lint` runs ESLint.
 - `bunx tsc --noEmit` runs TypeScript without emitting files.
 - No test command exists in `package.json`; the final browser verification is recorded in `.cairn/features/2026-09-27-oat-night/REVIEW.md`.
+
+# Production
+
+- GitHub: `https://github.com/christianfurr/ono`
+- Default branch: `master`
+- Vercel project: `makashi2021s-projects/ono`
+- Production alias: `https://ono-roan.vercel.app`
 
 # Gotchas
 

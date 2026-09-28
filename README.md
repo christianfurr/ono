@@ -2,6 +2,9 @@
 
 OAT / NIGHT is a static Next.js catalog for four overnight-oat recipes built from one cinnamon-free base. The experience pairs editorial food photography with scoped GSAP scroll choreography, while keeping the recipes readable and usable without animation.
 
+- Live site: [ono-roan.vercel.app](https://ono-roan.vercel.app)
+- Source: [github.com/christianfurr/ono](https://github.com/christianfurr/ono)
+
 ## Run locally
 
 ```bash

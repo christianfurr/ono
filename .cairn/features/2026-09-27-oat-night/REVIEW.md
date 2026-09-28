@@ -61,3 +61,13 @@ The final visual pass inspected the 390 mobile hero, 768 split hero, 1440 hero, 
 - No dark mode: the brief is a deliberately light, food-editorial composition, and a dark transformation would work against the generated photography and print behavior.
 - Mobile uses the complete static composition instead of pinning full-height sections. This preserves reading order, touch behavior, and reduced layout cost on smaller screens.
 - The optional finishing milk does not scale because it is an after-chilling texture adjustment, not part of the mixed base.
+
+## Production publication
+
+- Public repository: `https://github.com/christianfurr/ono`
+- Default branch: `master`
+- Vercel project: `makashi2021s-projects/ono`
+- Verified production alias: `https://ono-roan.vercel.app`
+- Deployment: `dpl_CqJ5jootTFQRgFxsCW7EB6jWLjie`, target `production`, state `READY`
+
+The public alias returned 200 for the landing page and all four recipe routes, and 404 for an unknown recipe. A second browser pass against the alias repeated the responsive, interaction, print, reduced-motion, and runtime-exception checks with the same results as local production.
