@@ -4,11 +4,11 @@
 
 **Goal:** Build and publish an art-directed overnight-oats catalog with four distinct flavor worlds around the owner's cinnamon-free base recipe.
 
-**Acceptance:** A visitor can browse all four flavors, open each direct recipe URL, scale the batch to 1x, 2x, or 3x, check ingredients, print the recipe, and experience flavor-specific motion and 3D with complete reduced-motion and static fallbacks on the live Vercel site.
+**Acceptance:** A visitor can browse all four flavors, open each direct recipe URL, scale the batch to 1x, 2x, or 3x, check ingredients, print the recipe, and experience an image-led, flavor-specific scroll story with a complete reduced-motion fallback on the live Vercel site.
 
 **Fleet size:** Project. Use parallel agents for bounded planning, asset, implementation, and review work while the director owns architecture and release decisions.
 
-**Stack:** Next.js 16 App Router, React 19, TypeScript, Tailwind CSS 4, Bun, GSAP, Three.js, and React Three Fiber.
+**Stack:** Next.js 16 App Router, React 19, TypeScript, Tailwind CSS 4, Bun, and GSAP with ScrollTrigger.
 
 **Commands:** `bun run build`, `bunx tsc --noEmit`, `bun run lint`. No test script exists, so this project adds no test suite.
 
@@ -18,14 +18,14 @@
 
 ## Art direction
 
-OAT / NIGHT uses an edible editorial system: oat-paper backgrounds, cocoa type, ingredient-specific accent colors, oversized display typography, and close food imagery. The landing page acts as a flavor index; each recipe opens into a separate art-directed commercial with its own geometry, motion, light, and pacing. One active procedural jar anchors the experience while each scene changes composition rather than recoloring a shared effect. The signature interaction is a flavor selector that synchronizes copy, palette, recipe action, and scene without trapping navigation or hiding semantic content.
+OAT / NIGHT uses an edible editorial system: oat-paper backgrounds, cocoa type, ingredient-specific accent colors, oversized display typography, and close food imagery. The landing page acts as a flavor index; each recipe opens into a separate art-directed commercial with its own cropping, motion, light, and pacing. Generated food photography anchors sticky scroll scenes while ingredient words, masks, and palette fields move around it. The signature interaction is a flavor selector that synchronizes copy, palette, recipe action, and imagery without trapping navigation or hiding semantic content.
 
 ## Storyboard
 
-1. The landing hero introduces OAT / NIGHT, the cinnamon-free base, and four flavor links around one active scene.
-2. The flavor index shifts palette and composition while preserving real links and keyboard navigation.
+1. The landing hero introduces OAT / NIGHT through a fast typographic curtain and a full-bleed food image.
+2. A sticky flavor index shifts palette, image crop, and ingredient typography while preserving real links and keyboard navigation.
 3. Each recipe opens at its own URL with a direct jump to semantic recipe content.
-4. One bounded assembly sequence leads into a calm recipe panel with scaling, checkoffs, and print support.
+4. One bounded image-led assembly sequence leads into a calm recipe panel with scaling, checkoffs, and print support.
 5. Related flavors close the page and return the visitor to the catalog.
 
 ## Repo map
@@ -36,18 +36,18 @@ OAT / NIGHT uses an edible editorial system: oat-paper backgrounds, cocoa type, 
 - `lib/recipes.ts` is the only recipe and flavor-content source.
 - `components/catalog/` owns landing selection and copy.
 - `components/recipe/` owns semantic recipe controls and assembly layout.
-- `components/scene/` owns the single lazy canvas, shared procedural models, and four scene modules.
+- `components/motion/` owns scoped GSAP entrances, sticky scroll sequences, and reduced-motion cleanup.
 - `app/globals.css` holds tokens, reset, global focus, reduced-motion, and print rules. CSS Modules hold surface composition.
 
 ## Approach
 
-Use one typed recipe system and four separate scene modules. Server Components render the catalog and recipe content; narrow Client Components own selection, ingredient state, scaling, and animation. GSAP owns DOM and story progress, while R3F reads stable progress refs and renders one active canvas.
+Use one typed recipe system and four generated editorial stills. Server Components render the catalog and recipe content; narrow Client Components own selection, ingredient state, scaling, and animation. GSAP owns DOM and story progress. CSS masks, transforms, and palette variables create depth without WebGL.
 
-The smallest-diff proposal reduced dependencies but reused one configurable scene. That approach risked four palettes wrapped around one composition, which conflicts with the source brief. The selected plan keeps the small proposal's CSS Modules, single-canvas limit, lazy loading, capped DPR, and Bun-only workflow.
+The first implementation used procedural 3D, but the owner rejected that visual direction after seeing it. The replacement keeps CSS Modules, generated imagery, semantic routes, and the Bun-only workflow while moving all spectacle into restrained, reversible scroll choreography.
 
 ## Scope boundary
 
-In scope: four recipes, a cinnamon-free base, direct routes, generated editorial fallback imagery, procedural 3D, bounded GSAP stories, batch scaling, ingredient checkboxes, print output, metadata, responsive design, keyboard support, reduced motion, GitHub, and a verified Vercel production deployment.
+In scope: four recipes, a cinnamon-free base, direct routes, generated editorial imagery, sticky and bounded GSAP stories, batch scaling, ingredient checkboxes, print output, metadata, responsive design, keyboard support, reduced motion, GitHub, and a verified Vercel production deployment.
 
 Out of scope: authentication, database storage, shopping, favorites, analytics, nutrition panels, invented serving yields, ratings, reviews, dietary guarantees, and storage-duration claims. These require product decisions or evidence that the owner did not provide.
 
@@ -56,14 +56,14 @@ Out of scope: authentication, database storage, shopping, favorites, analytics, 
 - Keep the base exact: 1/2 cup oats, 3/4 cup skim milk, 1/2 cup yogurt, 1 tablespoon chia seeds, 2 tablespoons honey, 1/2 teaspoon vanilla, and 1/8 teaspoon salt.
 - Cinnamon belongs only to the Cinnamon Honey recipe.
 - Mark Strawberry Vanilla, Chocolate Peanut Butter, and Blueberry Lemon as draft variations pending kitchen testing.
-- Keep every recipe and action usable before 3D loads and when WebGL or motion is unavailable.
+- Keep every recipe and action usable before motion initializes and when reduced motion is requested.
 - Use Bun for dependency changes, scripts, and one-off CLIs.
 - Use `bunx vercel@latest` instead of changing the installed global Vercel CLI.
 
 ## Issues
 
 - CN-001: Establish the brand and typed recipe foundation.
-- CN-002: Build four procedural flavor scenes.
+- CN-002: Build four procedural flavor scenes (superseded by owner feedback).
 - CN-006: Build the semantic catalog and recipe routes.
 - CN-003: Add scoped motion and editorial fallback assets.
 - CN-004: Audit, refine, and verify the complete experience.
@@ -75,14 +75,14 @@ Out of scope: authentication, database storage, shopping, favorites, analytics, 
 - `bunx tsc --noEmit`
 - `bun run lint`
 - Render and inspect `/` plus all four recipe URLs at 390, 768, and 1440 pixels.
-- Verify keyboard operation, focus visibility, 1x/2x/3x fractions, ingredient checkoffs, jump navigation, print output, reduced motion, canvas pause, static fallback, direct refresh, and browser history.
+- Verify keyboard operation, focus visibility, 1x/2x/3x fractions, ingredient checkoffs, jump navigation, print output, reduced motion, sticky-scene release, direct refresh, and browser history.
 - Verify Vercel reports `READY`, request every public route, and inspect the rendered production page rather than trusting the deployment record.
 
 ## Risks
 
-- Procedural food can look synthetic. Generated stills and CSS fallbacks preserve the art direction while scene geometry loads.
-- Glass and particles can create overdraw. Mobile uses lower DPR and particle counts, and reduced motion skips continuous rendering.
-- Route changes can leak animation state. `useGSAP` scopes timelines and every scene owns its GPU resources.
+- Image crops can become repetitive. Each flavor gets a distinct mask, scale, and type composition instead of a recolored template.
+- Scroll stories can trap the page or feel slow. Each sequence is bounded, unpins cleanly, collapses on mobile, and becomes static under reduced motion.
+- Route changes can leak animation state. `useGSAP` scopes timelines and every ScrollTrigger is reverted on cleanup.
 - Recipe variations have not been kitchen-tested. The UI labels their status and avoids unsupported claims.
 
 ## Assumptions

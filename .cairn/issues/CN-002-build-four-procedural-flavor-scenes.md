@@ -18,3 +18,4 @@ Use one active canvas, raw Three.js geometry, deterministic details, one custom 
 ## Notes
 
 - 2026-09-27 Implemented one lazy R3F canvas with a static image fallback, reduced-motion and WebGL gating, capped DPR, pause control, shared jar models, a custom cinnamon powder shader, and four distinct procedural compositions. Verified with TypeScript, scene-scoped ESLint, and diff checks.
+- 2026-09-27 Superseded by owner feedback after visual review. The 3D implementation was removed in CN-007 and replaced with an image-led GSAP scroll direction.
